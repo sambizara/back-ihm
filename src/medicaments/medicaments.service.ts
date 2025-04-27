@@ -12,8 +12,19 @@ export class MedicamentsService {
     private medicamentRepository: Repository<Medicament>,
   ) {}
 
-  create(createMedicamentDto: CreateMedicamentDto) {
-    return this.medicamentRepository.save(createMedicamentDto);
+  async create(createMedicamentDto: CreateMedicamentDto) {
+    // Correction : lier le fournisseur à l'objet, pas juste l'id
+    const { fournisseur_id, ...rest } = createMedicamentDto;
+    const med = this.medicamentRepository.create({
+      ...rest,
+      fournisseur: fournisseur_id ? { fournisseur_id: Number(fournisseur_id) } : undefined,
+    });
+    const saved = await this.medicamentRepository.save(med as any); // TypeORM bug: "as any" workaround
+    // On retourne l'objet complet avec la relation fournisseur
+    return this.medicamentRepository.findOne({
+      where: { medicament_id: saved.medicament_id },
+      relations: ['fournisseur'],
+    });
   }
 
   findAll() {
@@ -28,8 +39,14 @@ export class MedicamentsService {
   }
 
   async update(id: number, updateMedicamentDto: UpdateMedicamentDto) {
-    await this.medicamentRepository.update(id, updateMedicamentDto);
-    // On retourne l'objet complet et à jour, avec les relations
+    // Correction : gérer la relation fournisseur comme pour create
+    const { fournisseur_id, ...rest } = updateMedicamentDto;
+    const updatePayload: any = {
+      ...rest,
+      fournisseur: fournisseur_id ? { fournisseur_id: Number(fournisseur_id) } : undefined,
+    };
+    await this.medicamentRepository.update(id, updatePayload);
+    // On retourne l'objet complet et à jour, avec la relation fournisseur
     return this.medicamentRepository.findOne({
       where: { medicament_id: id },
       relations: ['fournisseur'],
