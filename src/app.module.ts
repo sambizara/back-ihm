@@ -8,7 +8,7 @@ import { FournisseursModule } from './fournisseurs/fournisseurs.module';
 import { MouvementstocksModule } from './mouvementstocks/mouvementstocks.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { User } from './users/user.entity'; // ✅ Ajout de l'import
+import { User } from './users/user.entity';
 
 @Module({
   imports: [
@@ -20,14 +20,14 @@ import { User } from './users/user.entity'; // ✅ Ajout de l'import
       password: 'sambizara123',
       database: 'ihm',
       entities: [Medicament, Fournisseur, MouvementStock, User],
-      synchronize: true, // ⚠️ Attention en prod, mettre sur false
+      synchronize: true,
       logging: true,
     }),
     MedicamentsModule,
     FournisseursModule,
     MouvementstocksModule,
     AuthModule,
-    UsersModule, // ✅ Ajout ici
+    UsersModule,
   ],
 })
 export class AppModule {}
