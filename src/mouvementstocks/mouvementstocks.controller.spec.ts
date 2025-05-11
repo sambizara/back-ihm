@@ -11,7 +11,9 @@ describe('MouvementstocksController', () => {
       providers: [MouvementstocksService],
     }).compile();
 
-    controller = module.get<MouvementstocksController>(MouvementstocksController);
+    controller = module.get<MouvementstocksController>(
+      MouvementstocksController,
+    );
   });
 
   it('should be defined', () => {

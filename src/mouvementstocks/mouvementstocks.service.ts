@@ -16,18 +16,24 @@ export class MouvementstocksService {
   ) {}
 
   async create(createMouvementstockDto: CreateMouvementstockDto) {
-    const medicament = await this.medicamentRepository.findOne({ where: { medicament_id: createMouvementstockDto.medicament_id } });
+    const medicament = await this.medicamentRepository.findOne({
+      where: { medicament_id: createMouvementstockDto.medicament_id },
+    });
     if (!medicament) throw new Error('Medicament not found');
     // Gestion du stock
     if (createMouvementstockDto.type_mouvement === 'entrée') {
-      medicament.stock = (medicament.stock || 0) + createMouvementstockDto.quantite;
+      medicament.stock =
+        (medicament.stock || 0) + createMouvementstockDto.quantite;
     } else if (createMouvementstockDto.type_mouvement === 'sortie') {
-      medicament.stock = Math.max((medicament.stock || 0) - createMouvementstockDto.quantite, 0);
+      medicament.stock = Math.max(
+        (medicament.stock || 0) - createMouvementstockDto.quantite,
+        0,
+      );
     }
     await this.medicamentRepository.save(medicament);
     const mouvement = this.mouvementStockRepository.create({
       ...createMouvementstockDto,
-      medicament
+      medicament,
     });
     return this.mouvementStockRepository.save(mouvement);
   }
@@ -37,7 +43,10 @@ export class MouvementstocksService {
   }
 
   findOne(id: number) {
-    return this.mouvementStockRepository.findOne({ where: { mouvement_id: id }, relations: ['medicament'] });
+    return this.mouvementStockRepository.findOne({
+      where: { mouvement_id: id },
+      relations: ['medicament'],
+    });
   }
 
   update(id: number, updateMouvementstockDto: UpdateMouvementstockDto) {

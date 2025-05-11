@@ -6,6 +6,9 @@ import { MouvementStock } from './mouvementstocks/entities/mouvementstock.entity
 import { MedicamentsModule } from './medicaments/medicaments.module';
 import { FournisseursModule } from './fournisseurs/fournisseurs.module';
 import { MouvementstocksModule } from './mouvementstocks/mouvementstocks.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { User } from './users/user.entity'; // ✅ Ajout de l'import
 
 @Module({
   imports: [
@@ -14,15 +17,17 @@ import { MouvementstocksModule } from './mouvementstocks/mouvementstocks.module'
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'madarauchiwa',
+      password: 'sambizara123',
       database: 'ihm',
-      entities: [Medicament, Fournisseur, MouvementStock],
-      synchronize: true, // à désactiver en production !
+      entities: [Medicament, Fournisseur, MouvementStock, User],
+      synchronize: true, // ⚠️ Attention en prod, mettre sur false
       logging: true,
     }),
     MedicamentsModule,
     FournisseursModule,
     MouvementstocksModule,
+    AuthModule,
+    UsersModule, // ✅ Ajout ici
   ],
 })
 export class AppModule {}

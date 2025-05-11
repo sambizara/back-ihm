@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Fournisseur } from '../../fournisseurs/entities/fournisseur.entity';
 import { MouvementStock } from '../../mouvementstocks/entities/mouvementstock.entity';
 

@@ -17,7 +17,9 @@ export class MedicamentsService {
     const { fournisseur_id, ...rest } = createMedicamentDto;
     const med = this.medicamentRepository.create({
       ...rest,
-      fournisseur: fournisseur_id ? { fournisseur_id: Number(fournisseur_id) } : undefined,
+      fournisseur: fournisseur_id
+        ? { fournisseur_id: Number(fournisseur_id) }
+        : undefined,
     });
     const saved = await this.medicamentRepository.save(med as any); // TypeORM bug: "as any" workaround
     // On retourne l'objet complet avec la relation fournisseur
@@ -43,7 +45,9 @@ export class MedicamentsService {
     const { fournisseur_id, ...rest } = updateMedicamentDto;
     const updatePayload: any = {
       ...rest,
-      fournisseur: fournisseur_id ? { fournisseur_id: Number(fournisseur_id) } : undefined,
+      fournisseur: fournisseur_id
+        ? { fournisseur_id: Number(fournisseur_id) }
+        : undefined,
     };
     await this.medicamentRepository.update(id, updatePayload);
     // On retourne l'objet complet et à jour, avec la relation fournisseur

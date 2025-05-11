@@ -21,12 +21,19 @@ export class FournisseursService {
   }
 
   findOne(id: number) {
-    return this.fournisseurRepository.findOne({ where: { fournisseur_id: id } });
+    return this.fournisseurRepository.findOne({
+      where: { fournisseur_id: id },
+    });
   }
 
-  async update(id: number, updateFournisseurDto: UpdateFournisseurDto): Promise<Fournisseur | null> {
+  async update(
+    id: number,
+    updateFournisseurDto: UpdateFournisseurDto,
+  ): Promise<Fournisseur | null> {
     await this.fournisseurRepository.update(id, updateFournisseurDto);
-    return this.fournisseurRepository.findOne({ where: { fournisseur_id: id } });
+    return this.fournisseurRepository.findOne({
+      where: { fournisseur_id: id },
+    });
   }
 
   remove(id: number) {
